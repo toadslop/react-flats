@@ -8,23 +8,32 @@ export default class App extends Component {
 
     this.state = {
       selectedApartmentLat: null,
-      selectedApartmentLng: null
+      selectedApartmentLng: null,
+      selectedApartmentId: null,
+      lastSelectedApartmentId: null
     };
   }
 
-  setSelectedApartment = (lat, lng) => {
+  setSelectedApartment = (lat, lng, id) => {
+    const { selectedApartmentId } = this.state;
     this.setState({
       selectedApartmentLat: lat,
-      selectedApartmentLng: lng
+      selectedApartmentLng: lng,
+      selectedApartmentId: id,
+      lastSelectedApartmentId: selectedApartmentId
     });
   }
 
   render() {
-    const { selectedApartmentLat, selectedApartmentLng } = this.state;
+    const { selectedApartmentLat, selectedApartmentLng, selectedApartmentId, lastSelectedApartmentId } = this.state;
     return (
       <div>
-        <FlatList setSelectedApartment={this.setSelectedApartment} />
-        <GoogleMap center={{ lat: selectedApartmentLat, lng: selectedApartmentLng }} selectedApartmentLat={selectedApartmentLat} selectedApartmentLng={selectedApartmentLng} />
+        <FlatList
+          selectedApartmentId={selectedApartmentId}
+          lastSelectedApartmentId={lastSelectedApartmentId}
+          setSelectedApartment={this.setSelectedApartment}
+        />
+        <GoogleMap selectedApartmentLat={selectedApartmentLat} selectedApartmentLng={selectedApartmentLng} />
       </div>
     );
   }
